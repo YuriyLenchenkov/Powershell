@@ -1,0 +1,13 @@
+$FolderPath = get-childitem "\\apkholding.ru\dfs\General\06 - АПК-Курск\06-ЕДС Видеоархив" -Recurse -directory -Depth 1
+$Report = @()
+Foreach ($Folder in $FolderPath) {
+    $Acl = Get-Acl -Path $Folder.FullName
+    foreach ($Access in $acl.Access)
+        {
+            $Properties = [ordered]@{'FolderName'=$Folder.FullName;'AD
+Group or
+User'=$Access.IdentityReference;'Permissions'=$Access.FileSystemRights;'Inherited'=$Access.IsInherited}
+            $Report += New-Object -TypeName PSObject -Property $Properties
+        }
+}
+$Report | Export-Csv -encoding utf8 -path "C:\temp\lenchenkov\eds_Permissions.csv"

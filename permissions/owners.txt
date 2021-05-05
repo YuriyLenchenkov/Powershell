@@ -1,0 +1,10 @@
+$path="E:\Shares\J\06 - ÀÏÊ-Êóðñê\obmen\"
+
+$folders=Get-ChildItem $path -Directory
+$Owners=@()
+foreach ($folder in $folders)
+      {
+      $Owners+= New-Object PsObject -Property @{FullName=$folder.FullName; Owner=(Get-Acl $folder.FullName | select owner | Where-Object {$_.owner -like "*S-*"}) }
+      }
+      $Owners | Export-Csv -NoTypeInformation -Encoding utf8 -delimiter ";" c:\temp\obmen_owners.csv
+#$FoldersLastAccess | Export-Csv -NoTypeInformation -Encoding utf8 -delimiter ";" d:\FoldersLastAccess.csv
