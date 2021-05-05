@@ -1,1 +1,1 @@
-Get-MailboxFolderStatistics -Identity RD_APK-Kursk@apkholding.ru | select name, itemsinfolder
+Get-MailboxFolderStatistics -Identity email@domain.ru | select name, itemsinfolder
