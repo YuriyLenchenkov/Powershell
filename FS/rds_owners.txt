@@ -1,0 +1,10 @@
+$path="C:\ClusterStorage\Volume1\Shares\UPD_RDS-LINETS"
+
+$files=Get-ChildItem $path -file
+$Owners=@()
+foreach ($file in $files)
+      {
+      $Owners+= New-Object PsObject -Property @{FullName=$file.FullName; Owner=(Get-Acl $file.FullName | select owner)} #| Where-Object {$_.owner -like "*S-*"}) } 
+      }
+      $Owners #| Out-GridView #Export-Csv -NoTypeInformation -Encoding utf8 -delimiter ";" c:\temp\obmen_owners.csv
+#$FoldersLastAccess | Export-Csv -NoTypeInformation -Encoding utf8 -delimiter ";" d:\FoldersLastAccess.csv
