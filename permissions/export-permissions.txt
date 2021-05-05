@@ -1,4 +1,4 @@
-$FolderPath = get-childitem "\\apkholding.ru\dfs\General\06 - АПК-Курск\06-ЕДС Видеоархив" -Recurse -directory -Depth 1
+$FolderPath = get-childitem "some_path" -Recurse -directory -Depth 1
 $Report = @()
 Foreach ($Folder in $FolderPath) {
     $Acl = Get-Acl -Path $Folder.FullName
