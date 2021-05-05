@@ -1,0 +1,2 @@
+$properties = @('name', 'lastaccesstime' )
+Get-ChildItem C:\Windows -file | Select-Object $properties | sort lastaccesstime | select -last 1
