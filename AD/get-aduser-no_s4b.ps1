@@ -1,0 +1,1 @@
+get-ADUser -filter * -SearchBase "OU=some_ou,DC=some_domain,DC=ru" -Properties Name, SamAccountName, msRTCSIP-PrimaryUserAddress | where-object {$_."msRTCSIP-PrimaryUserAddress" -eq $null} | select Name, SamAccountName, msRTCSIP-PrimaryUserAddress
