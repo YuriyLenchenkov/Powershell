@@ -1,0 +1,1 @@
+ Get-ClusterResource | Where-Object {$_.ResourceType -eq "Virtual Machine"} | select ownergroup | Out-File C:\temp\lenchenkov\vm_clustered.txt
