@@ -1,0 +1,85 @@
+Import-Module Hyper-V
+#
+$VDiskPath = "\\MYDOM\DFSRoot\RDS-Profiles\UVHD-S-1-5-21-2988499774-3619934774-1776546648-108997.vhdx"
+$VDiskNewSize = 1347420160
+[int]$VDiskBusy = 0
+#
+Try {
+  #
+  # Check if vdisk busy
+  #
+  Mount-DiskImage -ImagePath $VDiskPath -ErrorAction Stop
+}
+Catch{
+    Write-Warning "Mount-DiskImage error:`n$_"
+    $VDiskBusy = 1
+    BREAK
+}
+#
+If ($VDiskBusy -eq 0) {
+  #
+  Dismount-DiskImage -ImagePath $VDiskPath
+  #
+  # Resize vdisk
+  #
+  Resize-VHD -Path $VDiskPath -SizeBytes $VDiskNewSize
+  #
+  # Mount, extend partition and dismount vdisk
+  #
+  Mount-DiskImage -ImagePath $VDiskPath
+  $VDiskVol = Get-DiskImage –ImagePath $VDiskPath | Get-Disk | Get-Partition | Get-Volume
+  $PartSize = Get-PartitionSupportedSize -DriveLetter $VDiskVol.DriveLetter
+  Resize-Partition -DriveLetter $VDiskVol.DriveLetter -size $PartSize.SizeMax
+  Dismount-DiskImage -ImagePath $VDiskPath
+}
+
+
+
+_____________________
+
+
+<#
+.Synopsis
+   This script extend size VHD\VHDX file and resize partition to maximum.
+.EXAMPLE
+   .\Extend-VHD.ps1 -Path c:\somevhd.vhdx -Size 5GB
+#>
+#Requires -Version 3.0
+#Requires -RunAsAdministrator
+#Requires -Modules Hyper-V
+Param(
+[Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+[alias("Path")]
+[string]$VHDPath,
+[Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+[alias("Size")]
+[int64]$VHDNewSize
+)
+ 
+begin{  
+    try {
+        Mount-VHD -Path $VHDPath -ErrorAction Stop
+    }
+    catch {
+        Write-Error "File $VHDPath is busy"
+        Break
+    }
+    $vhd = Get-VHD -Path $VHDPath
+    if ($vhd.Size -ge $VHDNewSize){  
+        Write-Warning "File $VHDPath already have this size!"  
+        $vhd | Dismount-VHD   
+        Break
+    }
+}
+ 
+process{
+    Dismount-VHD -Path $VHDPath
+    Resize-VHD -Path $VHDPath -SizeBytes $VHDNewSize
+    $partition = Mount-VHD -Path $VHDPath -NoDriveLetter -Passthru | Get-Disk | Get-Partition
+    $partsize = $partition | Get-PartitionSupportedSize
+    $partition | Resize-Partition -Size $partsize.SizeMax
+}
+
+end{
+    Dismount-VHD -Path $VHDPath
+}
