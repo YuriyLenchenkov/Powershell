@@ -1,0 +1,2 @@
+﻿#Select-Object  @{n="Server IP";e={$_}},@{n="ping?";e={[bool](Test-Connection -ComputerName localhost -Quiet -Count 1)}}
+get-content c:/temp/ip.txt | Select-Object  @{n="Server IP";e={$_}},@{n="ping?";e={[bool](Test-Connection -ComputerName localhost -Count 1)}}

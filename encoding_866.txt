@@ -1,0 +1,24 @@
+$ErrorActionPreference = "Stop"
+
+function RunConsole($scriptBlock)
+{
+    $encoding = [Console]::OutputEncoding 
+    [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("cp866")
+    try
+    {
+        &$scriptBlock
+    }
+    finally
+    {
+        [Console]::OutputEncoding = $encoding
+    }
+}
+
+RunConsole {
+    & $PSScriptRoot\ConsoleApp1.exe
+}
+
+
+
+
+https://habr.com/ru/post/321076/
