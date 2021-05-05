@@ -1,0 +1,6 @@
+$sids = Get-Content C:\temp\lenchenkov\sids.csv
+foreach ($sid in $sids) {
+                        #$users = Get-ADUser -filter * | Where-Object SID -eq $sid | select name, SamAccountName | Export-Csv -Path C:\temp\lenchenkov\usr.csv -Encoding UTF8 -Append                
+                        Get-ADUser -filter * | Where-Object SID -eq $sid | select name, SamAccountName #| Export-Csv -Path C:\temp\lenchenkov\usr.csv -Encoding UTF8 -Append                
+                        }
+                   # $users | Export-Csv -Path C:\temp\lenchenkov\usr.csv -Encoding UTF8
