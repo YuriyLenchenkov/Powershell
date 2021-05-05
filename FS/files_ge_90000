@@ -1,0 +1,1 @@
+Get-ChildItem -Path C:\ClusterStorage\Volume1\Shares\folder | Where-Object Length -ge 9000000000  | sort Length -Descending | select name, @{Name="owner sid";Expression={$_.name -replace 'UVHD-', '' -replace '.vhdx', ''}}, Length | Export-Csv -Path C:\temp\lenchenkov\profiles_owners.csv
