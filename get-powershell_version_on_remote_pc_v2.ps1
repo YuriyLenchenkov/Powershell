@@ -1,4 +1,4 @@
-﻿#$pcs = @("06-dc-001","06-dc-002")
+﻿#$pcs = @("pc1","pc2")
 $pcs = Get-Content -Path C:\files\information_IT\inventory\kursk-servers.txt
 
     foreach ($pc in $pcs)
