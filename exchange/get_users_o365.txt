@@ -1,5 +1,5 @@
-(Get-ADUser -filter * -Searchbase "ou=Пользователи,ou=Линец,ou=Курская область,dc=apkholding,dc=ru" -Properties name,HomeMDB | Where-Object {$_.homeMDB -eq $null}  | select name, HomeMDB).count
+(Get-ADUser -filter * -Searchbase "ou=OU1,dc=domain,dc=ru" -Properties name,HomeMDB | Where-Object {$_.homeMDB -eq $null}  | select name, HomeMDB).count
 
-(Get-ADUser -filter * -Searchbase "ou=Пользователи,ou=Линец,ou=Курская область,dc=apkholding,dc=ru" -Properties name,HomeMDB | Where-Object {$_.homeMDB -ne $null}  | select name, HomeMDB).count
+(Get-ADUser -filter * -Searchbase "ou=OU1,dc=domain,dc=ru" -Properties name,HomeMDB | Where-Object {$_.homeMDB -ne $null}  | select name, HomeMDB).count
 
 | Export-Csv -Encoding UTF8 -Path
