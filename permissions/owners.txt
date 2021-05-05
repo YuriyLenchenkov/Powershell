@@ -1,4 +1,4 @@
-$path="E:\Shares\J\06 - АПК-Курск\obmen\"
+$path="some_path"
 
 $folders=Get-ChildItem $path -Directory
 $Owners=@()
