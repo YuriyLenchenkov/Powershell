@@ -1,4 +1,4 @@
-$path="C:\ClusterStorage\Volume1\Shares\UPD_RDS-LINETS"
+$path="C:\ClusterStorage\Volume1\Shares\folder"
 
 $files=Get-ChildItem $path -file
 $Owners=@()
