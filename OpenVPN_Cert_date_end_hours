@@ -1,0 +1,11 @@
+[System.Threading.Thread]::CurrentThread.CurrentCulture = "en-US"
+Set-Culture -CultureInfo en-us
+#$CurD = [datetime](Get-Date -format "MMM dd HH:mm:ss yyyy")
+$CurD = [datetime](Get-Date)
+#$CurD
+$CerD = (Get-Content 'C:\Program Files\OpenVPN\config-auto\file.ovpn' | Where-Object {$_ -like "*Not After*"}).Replace("Not After :","").Trim().Replace(" GMT","")
+#$CerD
+$CerD_conv = [datetime]([datetime]::parseexact($CerD, "MMM dd HH:mm:ss yyyy", [cultureinfo]::InvariantCulture))
+#$CerD_conv
+[math]::round((NEW-TIMESPAN –Start $CurD  –End $CerD_conv).TotalHours)
+#$diff - $CerD - $CurD
