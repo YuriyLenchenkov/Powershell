@@ -1,9 +1,12 @@
-[System.Threading.Thread]::CurrentThread.CurrentCulture = "en-US"
-Set-Culture -CultureInfo en-us
+#[System.Threading.Thread]::CurrentThread.CurrentCulture = "en-US"
+#Set-Culture -CultureInfo en-us
 #$CurD = [datetime](Get-Date -format "MMM dd HH:mm:ss yyyy")
 $CurD = [datetime](Get-Date)
-$CerD = (Get-Content 'C:\Program Files\OpenVPN\config-auto\file.ovpn' | Where-Object {$_ -like "*Not After*"}).Replace("Not After :","").Trim().Replace(" GMT","")
+#$CurD
+$CerD = (Get-Content 'C:\Program Files\OpenVPN\config-auto\nopDBA_2023_04.ovpn' | Where-Object {$_ -like "*Not After*"}).Replace("Not After :","").Trim().Replace(" GMT","")
+#$CerD
 $CerD_conv = [datetime]([datetime]::parseexact($CerD, "MMM dd HH:mm:ss yyyy", [cultureinfo]::InvariantCulture))
+#$CerD_conv
 [math]::round((NEW-TIMESPAN –Start $CurD.AddHours(-3)  –End $CerD_conv).TotalHours)
 #$diff - $CerD - $CurD
 
